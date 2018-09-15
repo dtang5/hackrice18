@@ -1,5 +1,4 @@
-import matplotlib.pyplot as plt
-
+# import matplotlib.pyplot as plt
 
 class Investment: # About the person
     def __init__(self, current_age, current_balance, retire_age, retire_fund):
