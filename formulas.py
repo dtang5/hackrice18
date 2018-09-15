@@ -1,8 +1,11 @@
 """
 Flask financial calculation code
 """
-
-
+import pylab
+import types
+import math
+import copy
+import matplotlib.pyplot as plt 
 
 class Mortgage():
 	def __init__(self, rate_percentage, number_of_years, principal_amount):
@@ -22,8 +25,11 @@ class Mortgage():
 			return (self.p)/(self.n*12)
 		else:
 			numerator = ((self.r/1200.0)*self.p)
+			print ("")
 			denominator = (1-(1+(self.r/1200))**-(self.n*12))
 			#(1-(1+pow((self.r/1200.0),-(self.n*12))))
+			if (1-(1+(self.r/1200))**-(self.n*12))==0:
+				return "Not Feasible"
 			final = numerator/denominator
 			return round(final,2)
 
@@ -37,18 +43,42 @@ class Mortgage():
 		return ((A*B)/(self.r/1200.0))+self.monthly_payment()*self.n*12
 
 
+def graph_mortgage_times(rate_percentage, number_of_years, principal_amount):
+	"""
+	This function creates a credit payment object with given APR, Balance, and monthly payment.
+	It then procees to create a dictionary where each value is the payment incremented and the corresponding value
+	is the time in months to payoff the balance given the key payment. Therefore, you should see a 
+	decrease in time to payoff the balance as the monthly payment increases.
+	"""
+	
+	empty_dict = {}
+	
+	for i in range(1,10):
+		new_time = Mortgage(rate_percentage, i*number_of_years, principal_amount)
+		empty_dict[i*number_of_years] = new_time.total_interest_paid()
 
-A = Mortgage(0,1,10)
-print A.monthly_payment()
+	keys = empty_dict.keys()
+	keys.sort()
+	print 'number of years  total interest paid'
+	for key in keys:
+		for key2 in empty_dict.keys():
+			if (key==key2):
+				print (str(key)+"               "+str(empty_dict[key]))
+
+
+
+A = Mortgage(1,1,10)
+#print A.monthly_payment()
+print graph_mortgage_times(6.5,30,200000)
 
 
 class Credit_Card_Payment():
 
-	def __init__(self, APR_percentage, Balance, Payment):
+	def __init__(self, APR_percentage, Balance, Monthly_payment):
 
 		self.a = APR_percentage
 		self.b = Balance
-		self.p = Payment
+		self.p = Monthly_payment
 
 	def payoff_time(self,units):
 		"""
@@ -59,8 +89,14 @@ class Credit_Card_Payment():
 		"""
 
 		percent = self.a/100.0
+		if (((1+(self.b/self.p)*(1-(1+(percent/365))**30))) or (1+(percent/365.0))) < 0: #if required to take log a negative,
+		#return not feasible
+			return 'Not Feasible'
+
+
 		numerator = math.log((1+(self.b/self.p)*(1-(1+(percent/365))**30)))
 		denominator = math.log(1+(percent/365.0))
+
 
 		result = ((-1.0/30)*(numerator/denominator))
 
@@ -75,26 +111,42 @@ class Credit_Card_Payment():
 		else:
 			return "Select only years, months, weeks, or days"
 	
-	def graph_payoff_times():
-		
+	
+
+def graph_credit_payoff_times(APR, Balance, monthly_payment):
+	"""
+	This function creates a credit payment object with given APR, Balance, and monthly payment.
+	It then procees to create a dictionary where each value is the payment incremented and the corresponding value
+	is the time in months to payoff the balance given the key payment. Therefore, you should see a 
+	decrease in time to payoff the balance as the monthly payment increases.
+	"""
+	
+	empty_dict = {}
+	
+	for i in range(1,10):
+		new_time = Credit_Card_Payment(APR, Balance, i*monthly_payment)
+		empty_dict[i*monthly_payment] = new_time.payoff_time('months')
+
+	keys = empty_dict.keys()
+	keys.sort()
+	print 'monthly payment  payoff time (months)'
+	for key in keys:
+		for key2 in empty_dict.keys():
+			if (key==key2):
+				print (str(key)+"               "+str(empty_dict[key]))
+	
+
+#A = Credit_Card_Payment(3,1000, 800)
+#print A.payoff_time('months')
+#print A.payoff_time('months')
+graph_credit_payoff_times(4,100000,100)
 
 
 
-A = Credit_Card_Payment(3,1000, 10)
-print A.payoff_time('weeks')
 
-
-
-
-
-
-
-
-
-
-
-
-
+plt.plot([1,2,3,4])
+plt.ylabel('some numbers')
+plt.show()
 
 
 
