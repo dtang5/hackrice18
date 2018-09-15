@@ -1,7 +1,7 @@
 import StringIO
 import random
 from flask import Flask, request, render_template, make_response
-from app.retirementform import BasicInformation
+
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -19,8 +19,7 @@ def start():
 
 @app.route('/retirement')
 def retirement():
-    form = BasicInformation()
-    return render_template('retirement.html', title="Input", form=form, login = logged_in)
+    return render_template('retirement.html', login = logged_in)
 
 @app.route('/mortgage')
 def mortgage():
