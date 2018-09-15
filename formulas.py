@@ -7,6 +7,28 @@ import math
 import copy
 import matplotlib.pyplot as plt 
 
+def _dict2lists(data):
+    """
+    Convert a dictionary into a list of keys and values, sorted by
+    key.  
+
+    Arguments:
+    data -- dictionary
+
+    Returns:
+    A tuple of two lists: the first is the keys, the second is the values
+    """
+    xvals = data.keys()
+    xvals.sort()
+    yvals = []
+    for x in xvals:
+        yvals.append(data[x])
+    return xvals, yvals
+
+
+
+
+
 class Mortgage():
 	def __init__(self, rate_percentage, number_of_years, principal_amount):
 		self.r = rate_percentage
@@ -64,12 +86,18 @@ def graph_mortgage_times(rate_percentage, number_of_years, principal_amount):
 		for key2 in empty_dict.keys():
 			if (key==key2):
 				print (str(key)+"               "+str(empty_dict[key]))
+	A=_dict2lists(empty_dict)
+	plt.plot(A[0],A[1])
+	plt.xlabel('number of years paying interest')
+	plt.ylabel('total interest paid (dollars)')
+	plt.show()
+
 
 
 
 A = Mortgage(1,1,10)
 #print A.monthly_payment()
-print graph_mortgage_times(6.5,30,200000)
+graph_mortgage_times(6.5,30,200000)
 
 
 class Credit_Card_Payment():
@@ -134,19 +162,19 @@ def graph_credit_payoff_times(APR, Balance, monthly_payment):
 		for key2 in empty_dict.keys():
 			if (key==key2):
 				print (str(key)+"               "+str(empty_dict[key]))
-	
+	A=_dict2lists(empty_dict)
+	plt.plot(A[0],A[1])
+	plt.xlabel('monthly payment amount (dollars)')
+	plt.ylabel('payoff time (months)')
+	plt.show()
 
 #A = Credit_Card_Payment(3,1000, 800)
 #print A.payoff_time('months')
 #print A.payoff_time('months')
-graph_credit_payoff_times(4,100000,100)
+#graph_credit_payoff_times(4,10000,100)
 
 
 
-
-plt.plot([1,2,3,4])
-plt.ylabel('some numbers')
-plt.show()
 
 
 
