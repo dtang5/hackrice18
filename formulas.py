@@ -43,27 +43,21 @@ class Mortgage():
 		"""
 		if (self.r==0):
 			
-			print ("If the interest rate percentage is zero, then the monthly payment is simply the principal divided by the total number of months")
+			#print ("If the interest rate percentage is zero, then the monthly payment is simply the principal divided by the total number of months")
 			return (self.p)/(self.n*12)
 		else:
 			numerator = ((self.r/1200.0)*self.p)
-			print ("")
 			denominator = (1-(1+(self.r/1200))**-(self.n*12))
 			#(1-(1+pow((self.r/1200.0),-(self.n*12))))
 			if (1-(1+(self.r/1200))**-(self.n*12))==0:
-				return "Not Feasible"
+				return 0
 			final = numerator/denominator
 			return round(final,2)
 
 	def total_interest_paid(self):
 		total_payment = self.monthly_payment()*self.n*12-self.p
 		return total_payment
-
-	def cumulative_interest(self):
-		A = (self.p*(self.r/1200.0))-self.monthly_payment()
-		B = ((1+(self.r/1200.0)))**(self.n*12)-1
-		return ((A*B)/(self.r/1200.0))+self.monthly_payment()*self.n*12
-
+	
 
 def graph_mortgage_times(rate_percentage, number_of_years, principal_amount):
 	"""
@@ -85,19 +79,20 @@ def graph_mortgage_times(rate_percentage, number_of_years, principal_amount):
 	for key in keys:
 		for key2 in empty_dict.keys():
 			if (key==key2):
-				print (str(key)+"               "+str(empty_dict[key]))
+				print (str(key)+"               $"+str(empty_dict[key]))
 	A=_dict2lists(empty_dict)
 	plt.plot(A[0],A[1])
 	plt.xlabel('number of years paying interest')
 	plt.ylabel('total interest paid (dollars)')
-	plt.show()
+	return plt
 
 
 
+#A = Mortgage(6.5,200000,30)
+#print A.total_interest_paid()
 
-A = Mortgage(1,1,10)
-#print A.monthly_payment()
-graph_mortgage_times(6.5,30,200000)
+#graph_mortgage_times(6.5,30,200000)
+
 
 
 class Credit_Card_Payment():
@@ -119,7 +114,7 @@ class Credit_Card_Payment():
 		percent = self.a/100.0
 		if (((1+(self.b/self.p)*(1-(1+(percent/365))**30))) or (1+(percent/365.0))) < 0: #if required to take log a negative,
 		#return not feasible
-			return 'Not Feasible'
+			return 0
 
 
 		numerator = math.log((1+(self.b/self.p)*(1-(1+(percent/365))**30)))
@@ -161,23 +156,38 @@ def graph_credit_payoff_times(APR, Balance, monthly_payment):
 	for key in keys:
 		for key2 in empty_dict.keys():
 			if (key==key2):
-				print (str(key)+"               "+str(empty_dict[key]))
+				print (str(key)+"               $"+str(empty_dict[key]))
 	A=_dict2lists(empty_dict)
 	plt.plot(A[0],A[1])
 	plt.xlabel('monthly payment amount (dollars)')
 	plt.ylabel('payoff time (months)')
 	plt.show()
 
-#A = Credit_Card_Payment(3,1000, 800)
+A = Credit_Card_Payment(3,1000, 800)
 #print A.payoff_time('months')
 #print A.payoff_time('months')
 #graph_credit_payoff_times(4,10000,100)
 
 
 
+def calculate_APR(i,q):
+	"""
+	This function calculates the APR
+	i = yearly interest rate
+	q = how many times i is compounded per year
+	"""
+	r = (1+(i/(q*1.0)))**q-1
 
+	return r
 
+#print calculate_APR(2,3)
 
+def calculate_interest_rate_from_APR(r,q):
 
+	i = q*(((1+r)**(1/(q*1.0)))-1)
+
+	return i
+
+#print calculate_interest_rate_from_APR(2,3)
 
 
