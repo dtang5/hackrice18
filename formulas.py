@@ -42,7 +42,46 @@ A = Mortgage(0,1,10)
 print A.monthly_payment()
 
 
+class Credit_Card_Payment():
 
+	def __init__(self, APR_percentage, Balance, Payment):
+
+		self.a = APR_percentage
+		self.b = Balance
+		self.p = Payment
+
+	def payoff_time(self,units):
+		"""
+		This is a method which returns the time it takes to payoff an input credit card balance with 
+		an input APR percentage and an input monthly payment
+
+		https://www.vcalc.com/wiki/KurtHeckman/Credit+Card+Equation
+		"""
+
+		percent = self.a/100.0
+		numerator = math.log((1+(self.b/self.p)*(1-(1+(percent/365))**30)))
+		denominator = math.log(1+(percent/365.0))
+
+		result = ((-1.0/30)*(numerator/denominator))
+
+		if (units.lower() == 'years'):
+			return round(result*0.0833,2)
+		elif (units.lower() == 'months'):
+			return round(result,2)
+		elif (units.lower() == 'weeks'):
+			return round(result*4.345,2)
+		elif (units.lower() == 'days'):
+			return round(result*30.417,2)
+		else:
+			return "Select only years, months, weeks, or days"
+	
+	def graph_payoff_times():
+		
+
+
+
+A = Credit_Card_Payment(3,1000, 10)
+print A.payoff_time('weeks')
 
 
 
