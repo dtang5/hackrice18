@@ -1,4 +1,4 @@
-import math
+import matplotlib.pyplot as plt
 
 
 class Investment: # About the person
