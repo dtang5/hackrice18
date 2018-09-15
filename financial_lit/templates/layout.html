@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
-    {% include 'includes/_navbar.html' %}
+    {% if login == True %}
+      {% include 'includes/_navbar_logged_in.html' %}
+    {% else %}
+      {% include 'includes/_navbar.html' %}
+    {% endif %}
     <br><br>
     {% block body %}{% endblock %}
 
