@@ -47,9 +47,10 @@ def mortgage_post():
     return render_template('mortgage_result.html', userMonthly_Payment=userMonthly_Payment,
                                                     userTotal_Interest_Paid=userTotal_Interest_Paid)
 
-@app.route('/car_payment')
-def car_payment():
-    return render_template('car_payment.html',login = logged_in)
+@app.route('/credit_payment.html')
+def \
+        credit_payment():
+    return render_template('credit_payment.html',login = logged_in)
 
 if __name__ == '__main__':
     app.run(debug=True)
