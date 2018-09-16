@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron">
+      <div class="container">
+        <h1><b>Your detailed analysis of your retirement plan:</b></h1>
+        <p>Please take a minute to read this</p>
+      </div>
+  </div>
+  <div class = "container">
+      <p>At your rate of {{rate}}%, when you retire you will have a fund of <b>${{retirementResult}}.</b></p>
+      <p>This assumes that you're able to pay ${{monthly_contribution}} every month until you retire in {{years_left}} years.</p>
+      <br/>
+      <p> However, your rate might not remain the same. </p>
+      <p> You may have to account for the fact that the stock market will depending on the economy. </p>
+      <br/>
+      <p> If your rate grows faster than anticipated, you could end up with a fund of <b>${{good_result}}.</b></p>
+      <br/>
+      <p> But it can also grow slower than anticipated, and you could end up with a fund of <b>${{bad_result}}</b></p>
+      <br/>
+      <p> You can choose to invest in slightly riskier stocks for more growth, or you can choose safer bonds.</p>
+      <p> A good rule of thumb is to invest more in stocks when you're young, so there is more room for growth.</p>
+      <p> But when you're older, investing in bonds can prevent your entire retirement from being wiped out by a stock market crash.</p>
+      <p> At your age of {{current_age}}, a good portfolio to start with is {{stock}}% stock and {{bond}}% bond.</p>
+  </div>
+
+
+{% endblock %}
