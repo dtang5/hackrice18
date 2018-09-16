@@ -90,7 +90,7 @@ def graph_mortgage_times(rate_percentage, number_of_years, principal_amount):
 	plt.plot(A[0],A[1])
 	plt.xlabel('number of years paying interest')
 	plt.ylabel('total interest paid (dollars)')
-	plt.show()
+	return plt
 
 
 

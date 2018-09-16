@@ -29,9 +29,11 @@ def mortgage_post():
     userMortgage= formulas.Mortgage(rate_percentage,number_of_years,principal_amount)
     userMonthly_Payment = int(userMortgage.monthly_payment())
     userTotal_Interest_Paid = int(userMortgage.total_interest_paid())
+    image_int_paid_vs_yr = formulas.graph_mortgage_times(rate_percentage,number_of_years,principal_amount)
 
     return render_template('mortgage_result.html', userMonthly_Payment=userMonthly_Payment,
-                                                    userTotal_Interest_Paid=userTotal_Interest_Paid)
+                                                    userTotal_Interest_Paid=userTotal_Interest_Paid,
+                                                    image_int_paid_vs_yr = image_int_paid_vs_yr)
 
 @app.route('/car_payment')
 def car_payment():
