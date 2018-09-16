@@ -42,7 +42,7 @@ class Portfolio: # About their current portfolio
 
 
 class Retire401K: # 401(k) plan
-    def __init__(self, age, years_left, contribution, salary, total_after, total_begin=0, rate=0, employer_match=0, roth=False):
+    def __init__(self, age, years_left, contribution, total_after=0, rate=0, total_begin=0, employer_match=0):
         self.age = age
         self.BELOW_AVERAGE_RATE = 4
         self.AVERAGE_RATE = 6.5 # This is a good yearly ROI for 401K's.
@@ -53,19 +53,17 @@ class Retire401K: # 401(k) plan
         else:
             self.maximum_contribution = 18500
         # Roth = True: taxed during deposit False: taxed during withdrawal
-        self.salary = salary
         self.contribution = contribution
         self.employer_match = employer_match
         self.total_begin = total_begin
         self.total_after = total_after
         # Calculate ROI to use.
         if rate > 0:
-            self.rate = rate
+            self.rate = float(rate)/(100 * 12)
         else:
-            self.rate = self.calc_ROI()/12
+            self.rate = float(self.calc_ROI())/12
 
         self.years_left = years_left
-        self.roth = roth
 
     def contribution_is_valid(self):
         if self.maximum_contribution < self.contribution:
@@ -89,8 +87,9 @@ class Retire401K: # 401(k) plan
             return float((self.total_after - self.total_begin))/self.total_begin
 
     def calc_401(self):
-        return self.total_after * (1 + self.rate)**(self.years_left * 12) \
-               + self.contribution * ((1 + self.rate)**(12 * self.years_left - 1)/self.rate)
+        return round(self.total_after * (1 + self.rate)**(self.years_left * 12) \
+               + self.contribution * (((1 + self.rate)**(12 * self.years_left ) - 1)/self.rate), 2)
 
 
-
+retire = Retire401K(15, 50, 300, 1000, 5)
+print retire.calc_401()

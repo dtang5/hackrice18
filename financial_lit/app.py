@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 import formulas
+import retirementCalc
 
 app = Flask(__name__)
 
@@ -15,6 +16,19 @@ def start():
 @app.route('/retirement')
 def retirement():
     return render_template('retirement.html',login = logged_in)
+
+@app.route('/retirement', methods=['POST'])
+def retirement_post():
+    current_age = int(request.form['current_age'])
+    years_left = int(request.form['years_left'])
+    monthly_contribution = float(request.form['monthly_contribution'])
+    total = float(request.form['total'])
+    rate = float(request.form['rate'])
+    retirementResult = \
+        retirementCalc.Retire401K(current_age, years_left, monthly_contribution, total, rate).calc_401()
+
+    return render_template('retirement_results.html', retirementResult=retirementResult)
+
 
 @app.route('/mortgage')
 def mortgage():
@@ -36,22 +50,6 @@ def mortgage_post():
 @app.route('/car_payment')
 def car_payment():
     return render_template('car_payment.html',login = logged_in)
-
-@app.route('/plot.png')
-def plot():
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-
-    xs = range(100)
-    ys = [random.randint(1, 50) for x in xs]
-
-    axis.plot(xs, ys)
-    canvas = FigureCanvas(fig)
-    output = StringIO.StringIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
