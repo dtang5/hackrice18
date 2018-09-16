@@ -80,16 +80,16 @@ class Retire401K: # 401(k) plan
 
     def get_bad_rate(self):
         print self.rate
-        if self.rate < 0.02:
+        if self.rate < 2:
             return 0
         else:
-            return self.rate - 0.02
+            return self.rate - 2
 
     def get_good_rate(self):
-        if self.rate > 0.98:
+        if self.rate > 98:
             return 1
         else:
-            return self.rate + 0.02
+            return self.rate + 2
 
     def calc_ROI(self):
         if self.total_begin != 0:
@@ -102,5 +102,3 @@ class Retire401K: # 401(k) plan
             adjusted_rate = float(self.rate)/(100 * 12)
             return round(self.total_after * (1 + adjusted_rate)**(self.years_left * 12) \
                          + self.contribution * (((1 + adjusted_rate)**(12 * self.years_left ) - 1)/adjusted_rate), 2)
-
-

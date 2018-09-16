@@ -24,13 +24,13 @@ def retirement_post():
     monthly_contribution = float(request.form['monthly_contribution'])
     total = float(request.form['total'])
     rate = float(request.form['rate'])
-    
+
     retire = retirementCalc.Retire401K(current_age, years_left, monthly_contribution, total, rate)
-    retirementResult = retire.calc_401()
+    retirementResult = int(retire.calc_401())
     good_rate = float(retire.get_good_rate())
     bad_rate = float(retire.get_bad_rate())
-    good_result = retirementCalc.Retire401K(current_age, years_left, monthly_contribution, total, good_rate).calc_401()
-    bad_result = retirementCalc.Retire401K(current_age, years_left, monthly_contribution, total, bad_rate).calc_401()
+    good_result = int(retirementCalc.Retire401K(current_age, years_left, monthly_contribution, total, good_rate).calc_401())
+    bad_result = int(retirementCalc.Retire401K(current_age, years_left, monthly_contribution, total, bad_rate).calc_401())
     bond, stock = retire.decide_my_portfolio()[0], retire.decide_my_portfolio()[1]
     return render_template('retirement_results.html', retirementResult=retirementResult, rate=rate,
                            monthly_contribution=monthly_contribution, years_left=years_left, bad_result=bad_result,
@@ -79,4 +79,4 @@ def creditpayment_post():
     return render_template('creditpayment_result.html',payofftime=payofftime)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
