@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 import formulas
+import retirementCalc
 
 app = Flask(__name__)
 
@@ -16,11 +17,25 @@ def start():
 def retirement():
     return render_template('retirement.html',login = logged_in)
 
+@app.route('/retirement', methods=['POST'])
+def retirement_post():
+    current_age = int(request.form['current_age'])
+    years_left = int(request.form['years_left'])
+    monthly_contribution = float(request.form['monthly_contribution'])
+    total = float(request.form['total'])
+    rate = float(request.form['rate'])
+    retirementResult = \
+        retirementCalc.Retire401K(current_age, years_left, monthly_contribution, total, rate).calc_401()
+
+    return render_template('retirement_results.html', retirementResult=retirementResult)
+
+
 @app.route('/mortgage')
 def mortgage():
     return render_template('mortgage.html',login = logged_in)
 
 @app.route('/mortgage', methods=['POST'])
+# hello
 def mortgage_post():
     rate_percentage = float(request.form['rate_percentage'])
     number_of_years = float(request.form['number_of_years'])
@@ -35,9 +50,19 @@ def mortgage_post():
                                                     userTotal_Interest_Paid=userTotal_Interest_Paid,
                                                     image_int_paid_vs_yr = image_int_paid_vs_yr)
 
-@app.route('/car_payment')
-def car_payment():
-    return render_template('car_payment.html',login = logged_in)
+
+@app.route('/credit_payment')
+def creditpayment():
+    return render_template('credit_payment.html',login = logged_in)
+
+@app.route('/credit_payment', methods=['POST'])
+def creditpayment_post():
+    apr_percentage = float(request.form['apr_percentage'])
+    balance = float(request.form['balance'])
+    monthly_payment = float(request.form['monthly_payment'])
+    payment = formulas.Credit_Card_Payment.payoff_time("months")
+
+    return render_template('creditpayment_result.html',payment=payment, login = logged_in)
 
 if __name__ == '__main__':
     app.run(debug=True)
