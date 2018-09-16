@@ -91,5 +91,3 @@ class Retire401K: # 401(k) plan
                + self.contribution * (((1 + self.rate)**(12 * self.years_left ) - 1)/self.rate), 2)
 
 
-retire = Retire401K(15, 50, 300, 1000, 5)
-print retire.calc_401()

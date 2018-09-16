@@ -47,10 +47,19 @@ def mortgage_post():
     return render_template('mortgage_result.html', userMonthly_Payment=userMonthly_Payment,
                                                     userTotal_Interest_Paid=userTotal_Interest_Paid)
 
-@app.route('/credit_payment.html')
-def \
-        credit_payment():
+
+@app.route('/credit_payment')
+def creditpayment():
     return render_template('credit_payment.html',login = logged_in)
+
+@app.route('/credit_payment', methods=['POST'])
+def creditpayment_post():
+    apr_percentage = float(request.form['apr_percentage'])
+    balance = float(request.form['balance'])
+    monthly_payment = float(request.form['monthly_payment'])
+    payment = formulas.Credit_Card_Payment.payoff_time("months")
+
+    return render_template('creditpayment_result.html',payment=payment, login = logged_in)
 
 if __name__ == '__main__':
     app.run(debug=True)
