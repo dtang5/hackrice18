@@ -35,6 +35,7 @@ def mortgage():
     return render_template('mortgage.html',login = logged_in)
 
 @app.route('/mortgage', methods=['POST'])
+# hello
 def mortgage_post():
     rate_percentage = float(request.form['rate_percentage'])
     number_of_years = float(request.form['number_of_years'])
